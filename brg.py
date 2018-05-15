@@ -54,16 +54,6 @@ class BRG:
             This function returns a dictionary {i : \hat{BRG}{\eps}_i}, where \hat{BRG}{\eps}_i
             is the estimated eps BRG restricted to i.
         """
-        #if not(isinstance(game_input, Game)):
-        #    raise Exception('To construct an individual, restricted BRG, a Game object must be given')
-        #TODO: (refactor) feels a bit hacky at the moment. Given all the confidence interval, this function
-        #is doing too much, it is both filtering samples and constructing the BRGs. Perhaps
-        # a better design is to have one function that takes samples of all the profiles of a single
-        # player and construct the restriction for that single player. Calling this new function for
-        # each player would be equivalent to calling this function with ALL the samples for ALL players.
-        # May 2, 2018. Now I think that is is fine. This functions takes ALL samples and constructs 
-        # individual graphs, whereas the function for TRUE BRG does not have samples but TRUE payoffs. 
-        # but it is still the case that the function could be refactor to avoid repeat work
         individual_restricted_brgs = {}
         for (strat_profile_player, conf) in conf_util.items():
             player = strat_profile_player[len(strat_profile_player) - 1]
@@ -72,16 +62,22 @@ class BRG:
                 individual_restricted_brgs[player].add_nodes_from([strat_profile_player 
                                for (strat_profile_player, conf) in conf_util.items() 
                                if strat_profile_player[len(strat_profile_player)-1] == player])
-            neigh = game_input.get_neiborhood(strat_profile_player)
-            conf_neigh = {s: conf_util[s] for s in neigh}        
-            max_inter = max(conf_neigh.items(), key = lambda e:e[1][1])[1]
-            max_neigh = [strat_profile_player for (strat_profile_player, conf) in conf_neigh.items() if conf[1] >= max_inter[0]]
-            min_neigh = [strat_profile_player for (strat_profile_player, conf) in conf_neigh.items() if conf[1] <  max_inter[0]]
+            (max_neigh, min_neigh) = BRG.compute_max_min_neigh(game_input, strat_profile_player, conf_util)
             # Add directed egde between every pair of nodes in max_neigh
             individual_restricted_brgs[player].add_edges_from([(s1, s2) for s1 in max_neigh for s2 in max_neigh])
             # Add directed edge between every member of min_neigh and every member of max_neigh
             individual_restricted_brgs[player].add_edges_from([(m, M) for m in min_neigh for M in max_neigh])
         return individual_restricted_brgs
+    
+    
+    @staticmethod
+    def compute_max_min_neigh(game_input, strat_profile_player, conf_util):
+        neigh = game_input.get_neiborhood(strat_profile_player)
+        conf_neigh = {s: conf_util[s] for s in neigh}        
+        max_inter = max(conf_neigh.items(), key = lambda e:e[1][0])[1]
+        max_neigh = [strat_profile_player for (strat_profile_player, conf) in conf_neigh.items() if conf[1] >= max_inter[0]]
+        min_neigh = [strat_profile_player for (strat_profile_player, conf) in conf_neigh.items() if conf[1] <  max_inter[0]]
+        return (max_neigh, min_neigh)
     
     @staticmethod
     def merge_directed_graphs(list_of_restricted_brg):

@@ -9,7 +9,7 @@ Created on Mon Apr 30 13:01:15 2018
 """
 import numpy as np
 import math
-from util_random import noise_c
+import util_random
 
 class Rademacher:
     
@@ -36,8 +36,8 @@ class Rademacher:
                 raise Exception('The number of samples for profile ' 
                                 + str(strat_profile_player) + ' is ' + str(number_of_samples)
                                 + ' but should be ' + str(m))
-            #avg_utilities.append(max(0.0, sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples))
-            avg_utilities.append(sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples)
+            avg_utilities.append(max(0.0, sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples))
+            #avg_utilities.append(sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples)
         return max(avg_utilities)
     
     @staticmethod
@@ -46,8 +46,8 @@ class Rademacher:
             Given a set of m samples and delta, compute the confidence interval
             for each strategy profile and player.
         """
-        eta =  3.0 * noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
-        #eta =  3 * math.sqrt((math.log(2 / delta)) / (2 * m))
+        eta =  3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
+        #eta =  3.0 * math.sqrt((math.log(2 / delta)) / (2 * m))
         r   = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
         eps = 2*(2*r + eta)
         #print('eta = ', eta)
@@ -57,5 +57,5 @@ class Rademacher:
         conf_util = {}
         for (strat_profile_player, utility_sample) in samples.items():
             aveg_util[strat_profile_player] = sum(u for u in utility_sample) / m
-            conf_util[strat_profile_player] = (aveg_util[strat_profile_player] - 2*r - eta, aveg_util[strat_profile_player] + 2*r + eta)
+            conf_util[strat_profile_player] = (aveg_util[strat_profile_player] - 2 * r - eta, aveg_util[strat_profile_player] + 2 * r + eta)
         return (eps, conf_util)

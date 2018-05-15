@@ -10,8 +10,8 @@ Created on Tue May  1 16:48:08 2018
     TODO:
         1) things are implemented with old Cyru's formula, should implement new formula
 """
-from rademacher import Rademacher
-from brg import BRG
+import rademacher
+import brg
 import test_games
 import util_random
 
@@ -20,39 +20,39 @@ testGame = test_games.get_testGame()
 game3Players = test_games.get_game3Players()
 
 
-(eps, conf) = Rademacher.compute_confidence_intervals(prisonersDilemma.get_noisy_samples(2000), 2000, 0.01)
-sample_individual_BRGS = BRG.construct_all_estimated_eps_individual_restricted_brgs(prisonersDilemma, conf)
-BRG.plot_graph(sample_individual_BRGS[0])
-BRG.plot_graph(sample_individual_BRGS[1])
-sample_BRG = BRG.get_estimated_eps_brg(prisonersDilemma, conf)
-BRG.plot_graph(sample_BRG)
+(eps, conf) = rademacher.Rademacher.compute_confidence_intervals(prisonersDilemma.get_noisy_samples(2000), 2000, 0.01)
+sample_individual_BRGS = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(prisonersDilemma, conf)
+brg.BRG.plot_graph(sample_individual_BRGS[0])
+brg.BRG.plot_graph(sample_individual_BRGS[1])
+sample_BRG = brg.BRG.get_estimated_eps_brg(prisonersDilemma, conf)
+brg.BRG.plot_graph(sample_BRG)
 
-(eps, conf) = Rademacher.compute_confidence_intervals(testGame.get_noisy_samples(2000), 2000, 0.1)
-sample_individual_BRGS = BRG.construct_all_estimated_eps_individual_restricted_brgs(testGame, conf)
-BRG.plot_graph(sample_individual_BRGS[0])
-BRG.plot_graph(sample_individual_BRGS[1])
-sample_BRG = BRG.get_estimated_eps_brg(testGame, conf)
-BRG.plot_graph(sample_BRG)
+(eps, conf) = rademacher.Rademacher.compute_confidence_intervals(testGame.get_noisy_samples(2000), 2000, 0.1)
+sample_individual_BRGS = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(testGame, conf)
+brg.BRG.plot_graph(sample_individual_BRGS[0])
+brg.BRG.plot_graph(sample_individual_BRGS[1])
+sample_BRG = brg.BRG.get_estimated_eps_brg(testGame, conf)
+brg.BRG.plot_graph(sample_BRG)
 
-(eps, conf) = Rademacher.compute_confidence_intervals(game3Players.get_noisy_samples(2000), 2000, 0.1)
-sample_individual_BRGS = BRG.construct_all_estimated_eps_individual_restricted_brgs(game3Players, conf)
-BRG.plot_graph(sample_individual_BRGS[0])
-BRG.plot_graph(sample_individual_BRGS[1])
-BRG.plot_graph(sample_individual_BRGS[2])
-sample_BRG = BRG.get_estimated_eps_brg(game3Players, conf)
-BRG.plot_graph(sample_BRG)
+(eps, conf) = rademacher.Rademacher.compute_confidence_intervals(game3Players.get_noisy_samples(2000), 2000, 0.1)
+sample_individual_BRGS = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(game3Players, conf)
+brg.BRG.plot_graph(sample_individual_BRGS[0])
+brg.BRG.plot_graph(sample_individual_BRGS[1])
+brg.BRG.plot_graph(sample_individual_BRGS[2])
+sample_BRG = brg.BRG.get_estimated_eps_brg(game3Players, conf)
+brg.BRG.plot_graph(sample_BRG)
 
 # Random Game
 
 random_game = util_random.generate_random_game(3,3)
 
-(eps, conf) = Rademacher.compute_confidence_intervals(random_game.get_noisy_samples(2000), 2000, 0.1)
-sample_individual_BRGS = BRG.construct_all_estimated_eps_individual_restricted_brgs(random_game, conf)
-BRG.plot_graph(sample_individual_BRGS[0])
-BRG.plot_graph(sample_individual_BRGS[1])
-BRG.plot_graph(sample_individual_BRGS[2])
-sample_BRG = BRG.get_estimated_eps_brg(random_game, conf)
-BRG.plot_graph(sample_BRG)
+(eps, conf) = rademacher.Rademacher.compute_confidence_intervals(random_game.get_noisy_samples(2000), 2000, 0.1)
+sample_individual_BRGS = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(random_game, conf)
+brg.BRG.plot_graph(sample_individual_BRGS[0])
+brg.BRG.plot_graph(sample_individual_BRGS[1])
+brg.BRG.plot_graph(sample_individual_BRGS[2])
+sample_BRG = brg.BRG.get_estimated_eps_brg(random_game, conf)
+brg.BRG.plot_graph(sample_BRG)
 
 
 #TODO: To graph the graph! run the following. Still need to find out how to color edges.

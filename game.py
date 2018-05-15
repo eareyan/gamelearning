@@ -42,7 +42,11 @@ class Game:
                         + ". \n\t Players: \n\t\t" \
                         + ('\n\t\t'.join(str(player) for player in self.listOfPlayers)) \
                         + "\n\t Payoffs: \n\t\t" + str(self.payoffs)
-                        
+                 
+    def get_max_payoff(self):
+        """ Get the maximum payoff among all possible payoffs """
+        return max(self.payoffs.items(), key = lambda e:e[1])[1]
+    
     def get_neiborhood(self, strat_profile_player):         
         """
             Given a tuple of strategy profile with player, returns the corresponding strategic neighbor as a list of 
@@ -77,10 +81,18 @@ class Game:
         """
         return self.payoffs[strat_profile_player] + util_random.get_noise()
         #return self.payoffs[strat_profile_player]
+        
+    def get_subset_noisy_samples(self, m, profiles):
+        """
+        Generates m noisy samples of each strategy profile and player received as parameter.
+        """
+        return {strat_profile_player : 
+                [self.noisy_sample(strat_profile_player) for sample in range(0, m)] 
+                for strat_profile_player in profiles}
     
     def get_noisy_samples(self, m):
         """ 
-        Generates m noisy samples of each strategy profile and player.
+        Generates m noisy samples of each strategy profile and player of the game.
         """
         return {strat_profile_player : 
                 [self.noisy_sample(strat_profile_player) for sample in range(0, m)] 
