@@ -10,16 +10,20 @@ import rademacher
 import brg
 import math
 
-def simple_sampling(game_input, delta, num_samples):
+def simple_sampling(game_input, delta, num_samples, HoeffdingIneq = False):
     """ Implements simple sampling algorithm """
+    samples = game_input.get_noisy_samples(num_samples)
     # Compute confidence intervals for the entire game
-    (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(num_samples), num_samples, delta)
+    if HoeffdingIneq:
+        (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(samples, num_samples, delta, True, len(game_input.payoffs))
+    else:
+        (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(samples, num_samples, delta)
     # Compute \hat{BRG}(\eps), i.e., the estimated epsilon BRG.
     dict_individual_estimated_eps_brgs  = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(game_input, conf)
     return (eps, conf, dict_individual_estimated_eps_brgs)
 
 
-def progressive_sampling(game_input, eps, delta, initial_num_samples, max_num_samples, verbose = False):
+def progressive_sampling(game_input, eps, delta, initial_num_samples, max_num_samples, HoeffdingIneq = False, verbose = False):
     """ implements progressive sampling algorithm """
     i = 1
     n = math.floor(math.log((max_num_samples / initial_num_samples) + 1, 2))
@@ -32,7 +36,7 @@ def progressive_sampling(game_input, eps, delta, initial_num_samples, max_num_sa
         if(num_samples > max_num_samples):
             return (None, None, None, None, None)
         else:
-            (eps_t, conf_t, dict_individual_estimated_eps_brgs_t) = simple_sampling(game_input, delta / n, num_samples)
+            (eps_t, conf_t, dict_individual_estimated_eps_brgs_t) = simple_sampling(game_input, delta / n, num_samples, HoeffdingIneq)
             if verbose:
                 print('eps_', i, ' = ', eps_t)
             if eps_t <= eps:

@@ -41,21 +41,30 @@ class Rademacher:
         return max(avg_utilities)
     
     @staticmethod
-    def compute_confidence_intervals(samples, m, delta):
+    def compute_confidence_intervals(samples, m, delta, HoeffdingIneq = False, sizeOfFamily = -1):
         """
             Given a set of m samples and delta, compute the confidence interval
             for each strategy profile and player.
         """
-        eta =  3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
-        #eta =  3.0 * math.sqrt((math.log(2 / delta)) / (2 * m))
-        r   = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
-        eps = 2*(2*r + eta)
-        #print('eta = ', eta)
-        #print('r = ', r)
-        #print('eps = ' , eps)
+        if HoeffdingIneq:
+            if sizeOfFamily < 0:
+                raise Exception('Size of family must be a positive integer')
+            #print('sizeOfFamily = ', sizeOfFamily)
+            eta = 2.0 * math.sqrt((math.log(sizeOfFamily / delta)) / (2.0 * m))
+            radius = eta
+        else:
+            eta =  3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
+            #eta =  3.0 * math.sqrt((math.log(2 / delta)) / (2 * m))
+            r   = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
+            radius = 2.0 * r + eta
+            #print('eta = ', eta)
+            #print('r = ', r)
+            #print('eps = ' , eps)
+        #print('width = ', width)
+        eps = 2.0 * radius
         aveg_util = {}
         conf_util = {}
         for (strat_profile_player, utility_sample) in samples.items():
             aveg_util[strat_profile_player] = sum(u for u in utility_sample) / m
-            conf_util[strat_profile_player] = (aveg_util[strat_profile_player] - 2 * r - eta, aveg_util[strat_profile_player] + 2 * r + eta)
+            conf_util[strat_profile_player] = (aveg_util[strat_profile_player] - radius, aveg_util[strat_profile_player] + radius)
         return (eps, conf_util)

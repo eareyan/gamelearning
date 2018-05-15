@@ -22,19 +22,20 @@ def intersect_conf(conf1, conf2):
             interConf = conf2[profile]
             # Check if the intersection is empty 
             if conf[1] < interConf[0] or conf[0] > interConf[1]:
-                raise Exception('Confidence intervals do not intersect')
+                return None
+                #raise Exception('Confidence intervals do not intersect')
             else:
                 finalConfs[profile] = (max(conf[0], interConf[0]), min(conf[1], interConf[1]))
         else:
             finalConfs[profile] = conf1[profile]
     return finalConfs
 
-def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 25600, verbose = False):
+def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 25600, HoeffdingIneq = False, verbose = False):
     """
     Implements progressive sampling with prunning. For now, just a doubling schedule.
     """
     # Collect an initial sample of all strat profile-player pairs
-    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(initial_num_samples), initial_num_samples, delta)
+    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(initial_num_samples), initial_num_samples, delta, HoeffdingIneq, len(game_input.payoffs))
     # Keep track of how many samples were taken for each strat profile-player pair
     total_num_samples = {s : initial_num_samples for (s,u) in game_input.payoffs.items()}
     # This function implements a doubling schedule. Compute the number of iterations.
@@ -61,8 +62,10 @@ def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 256
                 keepList += max_neigh                
         m = (2 ** (t - 1)) * initial_num_samples
         new_samples = game_input.get_subset_noisy_samples(m, keepList)
-        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, m, delta_t)
+        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, m, delta_t, HoeffdingIneq, len(keepList))
         conf_t_before = intersect_conf(conf_t_before, conf_t_after)
+        if conf_t_before is None:
+            return (None, None, None, None, None)
         # Collect number of samples each profile is sampled.
         for s in keepList:
             total_num_samples[s] = total_num_samples[s] + m

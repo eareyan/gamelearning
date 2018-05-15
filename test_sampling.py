@@ -22,7 +22,7 @@ def brg_containments_checker(test_game, dict_individual_true_brgs, dict_individu
     return True
 
 
-def test_simple_sampling(test_game, num_tests, delta, m):
+def test_simple_sampling(test_game, num_tests, delta, m, HoeffdingIneq = False):
     """ Run simple sampling sanity check """
     # Compute true BRG
     dict_individual_true_brgs = brg.BRG.construct_all_true_individual_restricted_brgs(test_game)
@@ -31,7 +31,7 @@ def test_simple_sampling(test_game, num_tests, delta, m):
         if(t % 50 == 0):
             print( 't = ', t)
         # Run the simple sampling algorithm. Get eps, conf, and the individuals BRG.
-        (eps, conf, dict_individual_estimated_eps_brgs) = sampling.simple_sampling(test_game, delta, m)
+        (eps, conf, dict_individual_estimated_eps_brgs) = sampling.simple_sampling(test_game, delta, m, HoeffdingIneq)
         # Construct the estimated BRG. Here we construct all individual BRGs
         dict_individual_estimated_eps_brgs  = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(test_game, conf)
         # Compute true BRG(2*\eps)
@@ -44,7 +44,7 @@ def test_simple_sampling(test_game, num_tests, delta, m):
     print('empirical probability of containment = ', empirical_prob)
     return empirical_prob
 
-def test_progressive_sampling(test_game, num_tests, eps, delta, m, max_num_samples, which_algo):
+def test_progressive_sampling(test_game, num_tests, eps, delta, m, max_num_samples, which_algo, HoeffdingIneq = False):
     """ Run progressive sampling sanity check """
     # Compute true BRG
     dict_individual_true_brgs = brg.BRG.construct_all_true_individual_restricted_brgs(test_game)
@@ -55,10 +55,10 @@ def test_progressive_sampling(test_game, num_tests, eps, delta, m, max_num_sampl
             print( 't = ', t)
         # Run the progressive sampling algorithm. Get eps, conf, and the individuals BRG.
         if which_algo == 'progressive':
-            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = sampling.progressive_sampling(test_game, eps, delta, m, max_num_samples)
+            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = sampling.progressive_sampling(test_game, eps, delta, m, max_num_samples, HoeffdingIneq)
         # Run progressive sampling with prunning. Note that psp and progressive have the same input -> output signature.
         elif which_algo == 'psp':        
-            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = psp.psp(test_game, eps, delta, m, max_num_samples)
+            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = psp.psp(test_game, eps, delta, m, max_num_samples, HoeffdingIneq)
         else:
             raise Exception('Unknown algorithm ', which_algo)
 
@@ -85,21 +85,26 @@ test_delta = 0.2 # With probability at least 1 - delta, we get BRG \subseteq \ha
 test_eps = 20.0
 test_max_samples = test_m * 200
 progressive_algo = 'progressive'
-progressive_algo = 'psp'
-
+#progressive_algo = 'psp'
+testHoeffdingIneq = True
 # Get the game to experiment with from the library of games.
 #experiment_game = test_games.get_prisonersDilemma()
 #experiment_game = test_games.get_testGame()
 #experiment_game = test_games.get_game3Players()
 
+if testHoeffdingIneq:
+    print('******* Testing HoeffdingIneq *******')
+else:
+    print('******* Testing Rademacher *******')
+
 for e in range(1, num_experiments):
     print('e = ', e)
     # Generate a new game to experiment with.
-    experiment_game = util_random.generate_random_game(3, 3, False)
+    experiment_game = util_random.generate_random_game(2, 2, False)
     test_eps = abs(experiment_game.get_max_payoff() * 0.1)
     print('test_eps = ', test_eps)
-    #empirical_prob = test_simple_sampling(experiment_game, num_experiments, test_delta, test_m)
-    empirical_prob = test_progressive_sampling(experiment_game, num_experiments, test_eps, test_delta , test_m, test_max_samples, progressive_algo)
+    #empirical_prob = test_simple_sampling(experiment_game, num_experiments, test_delta, test_m, testHoeffdingIneq)
+    empirical_prob = test_progressive_sampling(experiment_game, num_experiments, test_eps, test_delta , test_m, test_max_samples, progressive_algo, testHoeffdingIneq)
     if empirical_prob < 1 - test_delta:
         raise Exception('Ooops!, 1 - delta = ', (1 - test_delta) , ' > empirical_prob = ', empirical_prob)
         
