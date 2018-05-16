@@ -35,12 +35,15 @@ def plot_num_failures(ps_data, psp_data):
     plt.title('Number of successful runs')
     plt.xlabel('Error tolerance, $\epsilon$')
 
-def save_sample_plot(num_players, num_actions, ps_plot_data, psp_plot_data, title_post_fix, caption):
+def save_sample_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption):
     """ Plot m (data complexity) """
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    plt.plot(ps_plot_data['m'], label = 'Progressive Sampling')
-    plt.plot(psp_plot_data['m'], label = ' Progressive Sampling with Prunning')
+    ax.set_yscale('log')
+    plt.plot(ps_rademacher_plot_data['m'], label = 'Progressive Sampling (rademacher)')
+    plt.plot(psp_rademacher_plot_data['m'], label = ' Progressive Sampling with Prunning (rademacher)')
+    plt.plot(ps_hoeffding_plot_data['m'], label = 'Progressive Sampling (hoeffding)')
+    plt.plot(psp_hoeffding_plot_data['m'], label = ' Progressive Sampling with Prunning (hoeffding)')
     plt.legend()
     ax.yaxis.set_major_formatter(mtick.StrMethodFormatter('{x:,.0f}'))
     plt.title('Sample complexity \n ' + title_post_fix)
@@ -51,12 +54,15 @@ def save_sample_plot(num_players, num_actions, ps_plot_data, psp_plot_data, titl
     fig.savefig('plots/sample_' + str(num_players) + '_players_' + str(num_actions) + '_actions.png', bbox_inches='tight')
     plt.show()
 
-def save_time_plot(num_players, num_actions, ps_plot_data, psp_plot_data, title_post_fix, caption):
+def save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption):
     """ Plot time complexity """
     fig = plt.figure()
-    #ax = fig.add_subplot(111)
-    plt.plot(ps_plot_data['time'], label = 'Progressive Sampling')
-    plt.plot(psp_plot_data['time'], label = ' Progressive Sampling with Prunning')
+    ax = fig.add_subplot(111)
+    ax.set_yscale('log')
+    plt.plot(ps_rademacher_plot_data['time'], label = 'Progressive Sampling (rademacher)')
+    plt.plot(psp_rademacher_plot_data['time'], label = ' Progressive Sampling with Prunning (rademacher)')
+    plt.plot(ps_hoeffding_plot_data['time'], label = 'Progressive Sampling (hoeffding)')
+    plt.plot(psp_hoeffding_plot_data['time'], label = ' Progressive Sampling with Prunning (hoeffding)')
     plt.legend()
     plt.title('Time complexity \n ' + title_post_fix)
     plt.xlabel('Error tolerance, $\epsilon$')
@@ -68,14 +74,15 @@ def save_time_plot(num_players, num_actions, ps_plot_data, psp_plot_data, title_
     
 
 
-results_dict = {'4TFGDJ': (2, 2), 
-                'DFY05A': (2, 3), 
-                'TO5F9S': (2, 4), 
-                '9IBN1X': (3, 2),
-                'WU6QBI': (3, 3),
-                'Q6FPE3': (3, 4),
-                'Z60M3X': (4, 2),
-                'P0E4NT': (4, 3)}
+results_dict = {'QY6V82': (2, 2),
+                'X8EAEG': (2, 3), 
+                'IDQNX7': (2, 4), 
+                'ES7N6O': (3, 2),
+                'HMC1SF': (3, 3),
+                'WCRQZ4': (3, 4),
+                'M0DZOA': (4, 2),
+                'MM0KZ6': (4, 3),
+                'K1UMF0': (5, 2)}
 
 for (game_id, (num_players, num_actions)) in results_dict.items():
     results = pd.read_csv('results/progressive_data_num_players_' + str(num_players) + '_num_actions_' + str(num_actions) + '_' + game_id + '.csv')
@@ -87,16 +94,24 @@ for (game_id, (num_players, num_actions)) in results_dict.items():
     title_post_fix = 'Random game with ' + str(num_players) + ' players, each with '+str(num_actions) + ' actions, game size: ' + str((num_actions ** num_players) * num_players)
     
     # Prepare data for plots.
-    ps_data = results[results['algo'] == 'ps']    
-    psp_data = results[results['algo'] == 'psp']    
-    ps_data['m'] = ps_data['m'].astype(int)
-    psp_data['m'] = psp_data['m'].astype(int)
+    ps_rademacher_data = results[(results['algo'] == 'ps') & (results['type'] == 'rademacher')]    
+    psp_rademacher_data = results[(results['algo'] == 'psp') & (results['type'] == 'rademacher')]    
+    ps_rademacher_data['m'] = ps_rademacher_data['m'].astype(int)
+    psp_rademacher_data['m'] = psp_rademacher_data['m'].astype(int)
+
+    ps_hoeffding_data = results[(results['algo'] == 'ps') & (results['type'] == 'hoeffding')]    
+    psp_hoeffding_data = results[(results['algo'] == 'psp') & (results['type'] == 'hoeffding')]    
+    ps_hoeffding_data['m'] = ps_hoeffding_data['m'].astype(int)
+    psp_hoeffding_data['m'] = psp_hoeffding_data['m'].astype(int)
     
     # Group data for epsilon
-    ps_plot_data = ps_data.groupby('eps').mean()
-    psp_plot_data = psp_data.groupby('eps').mean()
+    ps_rademacher_plot_data = ps_rademacher_data.groupby('eps').mean()
+    psp_rademacher_plot_data = psp_rademacher_data.groupby('eps').mean()
+
+    ps_hoeffding_plot_data = ps_hoeffding_data.groupby('eps').mean()
+    psp_hoeffding_plot_data = psp_hoeffding_data.groupby('eps').mean()
     
     # Plot
-    save_sample_plot(num_players, num_actions, ps_plot_data, psp_plot_data, title_post_fix, caption)
-    save_time_plot(num_players, num_actions, ps_plot_data, psp_plot_data, title_post_fix, caption)
+    save_sample_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption)
+    save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption)
  
