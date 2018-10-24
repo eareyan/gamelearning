@@ -5,9 +5,10 @@ Created on Thu May 10 09:44:05 2018
 
 @author: enriqueareyan
 """
-import rademacher
-import brg
+from structures import brg
+from prob import rademacher
 import math
+
 
 def intersect_conf(conf1, conf2):
     """ Given two dict stratprofile -> conf_interval,
@@ -23,21 +24,24 @@ def intersect_conf(conf1, conf2):
             # Check if the intersection is empty 
             if conf[1] < interConf[0] or conf[0] > interConf[1]:
                 return None
-                #raise Exception('Confidence intervals do not intersect')
+                # raise Exception('Confidence intervals do not intersect')
             else:
                 finalConfs[profile] = (max(conf[0], interConf[0]), min(conf[1], interConf[1]))
         else:
             finalConfs[profile] = conf1[profile]
     return finalConfs
 
-def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 25600, HoeffdingIneq = False, verbose = False):
+
+def psp(game_input, eps, delta, initial_num_samples=100, max_num_samples=25600, HoeffdingIneq=False, verbose=False):
     """
     Implements progressive sampling with prunning. For now, just a doubling schedule.
     """
     # Collect an initial sample of all strat profile-player pairs
-    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(initial_num_samples), initial_num_samples, delta, HoeffdingIneq, len(game_input.payoffs))
+    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(
+        game_input.get_noisy_samples(initial_num_samples), initial_num_samples, delta, HoeffdingIneq,
+        len(game_input.payoffs))
     # Keep track of how many samples were taken for each strat profile-player pair
-    total_num_samples = {s : initial_num_samples for (s,u) in game_input.payoffs.items()}
+    total_num_samples = {s: initial_num_samples for (s, u) in game_input.payoffs.items()}
     # This function implements a doubling schedule. Compute the number of iterations.
     n = math.floor(math.log((max_num_samples / initial_num_samples) + 1, 2))
     if verbose:
@@ -46,12 +50,13 @@ def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 256
     for t in range(1, n + 1):
         delta_t = t * (delta / n)
         if verbose:
-            print('eps_', t, ' = ', eps_t, ', delta_', t,' = ', delta_t)
-        if(eps_t <= eps):
+            print('eps_', t, ' = ', eps_t, ', delta_', t, ' = ', delta_t)
+        if (eps_t <= eps):
             if verbose:
                 print('done at t = ', t)
             # Compute \hat{BRG}(\eps), i.e., the estimated epsilon BRG.
-            dict_individual_estimated_eps_brgs  = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(game_input, conf_t_before)
+            dict_individual_estimated_eps_brgs = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(
+                game_input, conf_t_before)
             return (total_num_samples, eps_t, delta_t, conf_t_before, dict_individual_estimated_eps_brgs)
         keepList = []
         # For each player and each neighborhood
@@ -59,10 +64,11 @@ def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 256
             for strat in game_input.get_zero_strategies(i):
                 (max_neigh, min_neigh) = brg.BRG.compute_max_min_neigh(game_input, strat, conf_t_before)
                 pruneSet |= set(min_neigh)
-                keepList += max_neigh                
+                keepList += max_neigh
         m = (2 ** (t - 1)) * initial_num_samples
         new_samples = game_input.get_subset_noisy_samples(m, keepList)
-        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, m, delta_t, HoeffdingIneq, len(keepList))
+        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, m, delta_t,
+                                                                                   HoeffdingIneq, len(keepList))
         conf_t_before = intersect_conf(conf_t_before, conf_t_after)
         if conf_t_before is None:
             return (None, None, None, None, None)
@@ -73,7 +79,7 @@ def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 256
             print('m = ', m, ', pruned so far = ', len(pruneSet))
     # If execution reaches this lines, then the algorithm failed.
     return (None, None, None, None, None)
-    
+
     # If there is no active profile across all profiles
     # but epsilon is not as small as wanted by the user, then what?
     # Keep sampling until we get the right guarantess
@@ -92,6 +98,7 @@ def psp(game_input, eps, delta, initial_num_samples = 100, max_num_samples = 256
     # For now, checking epsilon before intersecting is suboptimal
     # but it is correct, i.e., preserves guarantees. 
 
+
 def inspect_psp_output(total_num_samples, game_input):
     """
     A function to output some useful statistics about psp.
@@ -101,7 +108,8 @@ def inspect_psp_output(total_num_samples, game_input):
         for s_0 in game_input.get_zero_strategies(i):
             print(s_0)
             for neigh in game_input.get_neiborhood(s_0):
-                print('\t', neigh,'\t', game_input.payoffs[neigh] , '\t', total_num_samples[neigh])
-    max_num_samples = max(total_num_samples.items(), key = lambda e:e[1])[1]
-    prc_worst_case_explored = sum(m for (s,m) in total_num_samples.items()) / (len(game_input.payoffs) * max_num_samples)
+                print('\t', neigh, '\t', game_input.payoffs[neigh], '\t', total_num_samples[neigh])
+    max_num_samples = max(total_num_samples.items(), key=lambda e: e[1])[1]
+    prc_worst_case_explored = sum(m for (s, m) in total_num_samples.items()) / (
+            len(game_input.payoffs) * max_num_samples)
     print('Worst case explored up to: ', prc_worst_case_explored)

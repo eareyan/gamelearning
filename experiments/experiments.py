@@ -5,9 +5,8 @@ Created on Mon May 14 17:42:26 2018
 
 @author: enriqueareyan
 """
-import util_random
-import psp
-import sampling
+from prob import util_random
+from algos import sampling, psp
 import time
 import pandas as pd
 import sys

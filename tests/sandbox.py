@@ -10,10 +10,9 @@ Created on Tue May  1 16:48:08 2018
     TODO:
         1) things are implemented with old Cyru's formula, should implement new formula
 """
-import rademacher
-import brg
-import test_games
-import util_random
+from structures import brg
+from prob import rademacher, util_random
+from test import test_games
 
 prisonersDilemma = test_games.get_prisonersDilemma()
 testGame = test_games.get_testGame()
@@ -44,7 +43,7 @@ brg.BRG.plot_graph(sample_BRG)
 
 # Random Game
 
-random_game = util_random.generate_random_game(3,3)
+random_game = util_random.generate_random_game(3, 3)
 
 (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(random_game.get_noisy_samples(2000), 2000, 0.1)
 sample_individual_BRGS = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(random_game, conf)

@@ -9,7 +9,8 @@ Created on Mon Apr 30 13:01:15 2018
 """
 import numpy as np
 import math
-import util_random
+from prob import util_random
+
 
 class Rademacher:
     
@@ -50,10 +51,10 @@ class Rademacher:
             if sizeOfFamily < 0:
                 raise Exception('Size of family must be a positive integer')
             #print('sizeOfFamily = ', sizeOfFamily)
-            eta = 2.0 * math.sqrt((math.log(sizeOfFamily / delta)) / (2.0 * m))
+            eta = util_random.noise_c * math.sqrt((math.log((2.0 * sizeOfFamily) / delta)) / (2.0 * m))
             radius = eta
         else:
-            eta =  3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
+            eta = 3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
             #eta =  3.0 * math.sqrt((math.log(2 / delta)) / (2 * m))
             r   = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
             radius = 2.0 * r + eta

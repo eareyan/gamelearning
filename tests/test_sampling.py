@@ -6,11 +6,10 @@ Created on Wed May  2 13:20:37 2018
 @author: enriqueareyan
     Some experiments to test the first containment, i.e., if the true BRG is in \hat{BRG}(\eps)
 """
-import brg
-import sampling
-import psp
+from structures import brg
+from prob import util_random
+from algos import sampling, psp
 #import test_games
-import util_random
 
 def brg_containments_checker(test_game, dict_individual_true_brgs, dict_individual_estimated_eps_brgs, dict_individual_2_eps_brgs):
     # For each player, check both contaiments: BRG \subseteq \hat{BRG}(\eps) \subseteq BRG(2\eps)
@@ -58,7 +57,7 @@ def test_progressive_sampling(test_game, num_tests, eps, delta, m, max_num_sampl
             (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = sampling.progressive_sampling(test_game, eps, delta, m, max_num_samples, HoeffdingIneq)
         # Run progressive sampling with prunning. Note that psp and progressive have the same input -> output signature.
         elif which_algo == 'psp':        
-            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = psp.psp(test_game, eps, delta, m, max_num_samples, HoeffdingIneq)
+            (num_samples, eps_hat, delta_hat, conf, dict_individual_estimated_eps_brgs) = psp.psp(test_game, eps, delta, m, max_num_samples, HoeffdingIneq, False)
         else:
             raise Exception('Unknown algorithm ', which_algo)
 
@@ -73,19 +72,23 @@ def test_progressive_sampling(test_game, num_tests, eps, delta, m, max_num_sampl
             counter = counter + 1
         else:
             break
-    empirical_prob = counter / (num_tests - failed_runs)
-    print('empirical probability of containment = ', empirical_prob)
-    print('fail runs =', failed_runs)
+    print('num_tests = ' , num_tests, ', failed_runs = ', failed_runs)
+    if util_random.noise_c  == num_tests:
+        print('No runs worked!')
+    else:
+        empirical_prob = counter / (num_tests - failed_runs)
+        print('empirical probability of containment = ', empirical_prob)
+        print('fail runs =', failed_runs)
     return empirical_prob
 
 # Parameters
 num_experiments = 100
 test_m = 100
-test_delta = 0.2 # With probability at least 1 - delta, we get BRG \subseteq \hat{BRG}{\eps}
+test_delta = 0.8 # With probability at least 1 - delta, we get BRG \subseteq \hat{BRG}{\eps}
 test_eps = 20.0
 test_max_samples = test_m * 200
-progressive_algo = 'progressive'
-#progressive_algo = 'psp'
+#progressive_algo = 'progressive'
+progressive_algo = 'psp'
 testHoeffdingIneq = True
 # Get the game to experiment with from the library of games.
 #experiment_game = test_games.get_prisonersDilemma()
@@ -100,8 +103,8 @@ else:
 for e in range(1, num_experiments):
     print('e = ', e)
     # Generate a new game to experiment with.
-    experiment_game = util_random.generate_random_game(2, 2, False)
-    test_eps = abs(experiment_game.get_max_payoff() * 0.1)
+    experiment_game = util_random.generate_random_game(3, 3, False)
+    test_eps = abs(experiment_game.get_max_payoff() * 0.01)
     print('test_eps = ', test_eps)
     #empirical_prob = test_simple_sampling(experiment_game, num_experiments, test_delta, test_m, testHoeffdingIneq)
     empirical_prob = test_progressive_sampling(experiment_game, num_experiments, test_eps, test_delta , test_m, test_max_samples, progressive_algo, testHoeffdingIneq)
