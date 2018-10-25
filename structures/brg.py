@@ -89,13 +89,13 @@ class BRG:
         return (max_neigh, min_neigh)
 
     @staticmethod
-    def merge_directed_graphs(list_of_restricted_brg: list) -> nx.MultiDiGraph:
+    def merge_directed_graphs(dict_of_restricted_brg : dict) -> nx.MultiDiGraph:
         """ Given a dictionary: {player_index : restricted BRG}, construct the final best response graph. """
-        BRG = nx.MultiDiGraph()
-        for (player, restricted_BRG) in list_of_restricted_brg.items():
+        the_brg = nx.MultiDiGraph()
+        for player, restricted_BRG in dict_of_restricted_brg.items():
             for (u, v) in restricted_BRG.edges():
-                BRG.add_edge(u[:-1], v[:-1], player=player)
-        return BRG
+                the_brg.add_edge(u[:-1], v[:-1], player=player)
+        return the_brg
 
     @staticmethod
     def isG1ContainedInG2(G1: nx.MultiDiGraph, G2: nx.MultiDiGraph) -> bool:

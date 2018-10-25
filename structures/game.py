@@ -119,3 +119,9 @@ class Game:
             s.insert(self.numPlayers, player_index)
         # Add to the profile of other agents, the strategy 0 of the player and the player index at the end.
         return [tuple(s) for s in profiles_other_strats]
+
+    def get_sum_of_payoffs(self, strategy: tuple):
+        """
+        Given a strategy, return the sum of the payoffs of all players in the strategy
+        """
+        return sum([self.payoffs[strategy + (p,)] for p in range(0, self.numPlayers)])

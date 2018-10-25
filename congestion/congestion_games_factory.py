@@ -26,7 +26,7 @@ class CongestionGamesFactory:
 
     @staticmethod
     def create_power_law_game(n, m, alpha):
-        facilities = set([i for i in range(0, m)])
+        # Currently, all cost functions are the identity function.
         facilities_cost_functions = {i: lambda x: x for i in range(0, m)}
         strats = {}
         for p in range(0, n):
@@ -38,11 +38,6 @@ class CongestionGamesFactory:
                     strats[p][len(strats[p])] = strat
         return congestion_games.CongestionGame("random power law congestion game", n, m, strats, facilities_cost_functions)
 
-
-n = 5
-m = 5
-alpha = 0.75
-
-random_power_law_game = CongestionGamesFactory.create_power_law_game(n, m, alpha)
-print(random_power_law_game.printGame(len(random_power_law_game.payoffs) <= 200))
-print("Number of payoff entries = ", len(random_power_law_game.payoffs))
+    @staticmethod
+    def getRandomPowerLawGame(n, m, alpha):
+        return CongestionGamesFactory.create_power_law_game(n, m, alpha)

@@ -4,14 +4,15 @@ import itertools
 
 class CongestionGame(game.Game):
     numFacilities = -1
+    facilities_cost_functions = None
 
     def __init__(self, name, num_players, num_facilities, strats, facilities_cost_functions):
         self.numPlayers = num_players
         self.numFacilities = num_facilities
         self.listOfPlayers = [player.Player(2) for i in range(0, num_players)]
         self.name = name
-        self.payoffs = self.congestion_map_of_payoffs(num_players, strats, set([f for f in range(0, num_facilities)]),
-                                                      facilities_cost_functions)
+        self.facilities_cost_functions = facilities_cost_functions
+        self.payoffs = self.congestion_map_of_payoffs(num_players, strats, set([f for f in range(0, num_facilities)]), facilities_cost_functions)
 
     def printGame(self, withPayoff):
         return super(CongestionGame, self).__str__() if withPayoff else \

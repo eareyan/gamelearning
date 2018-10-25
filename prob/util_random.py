@@ -16,7 +16,7 @@ import string
 #noise_c = 5
 #noise_c = 2
 noise_c = 1
-#random_game_noise_c = 100
+random_game_noise_c = 100
 
 
 def get_noise():
