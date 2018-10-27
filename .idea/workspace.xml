@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="308022e2-138e-4013-88fa-da13929580be" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/experiments/congestion_games_experiments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/congestion/congestion_game_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/congestion/congestion_game_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/congestion/congestion_games.py" beforeDir="false" afterPath="$PROJECT_DIR$/congestion/congestion_games.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/congestion/congestion_games_experiments.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/congestion/congestion_games_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/congestion/congestion_games_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/100_eps_plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/100_num_nash_plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/200_eps_plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/200_num_nash_plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/500_eps_plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/nash_plots/simple_sampling/500_num_nash_plot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/algos/sampling.py" beforeDir="false" afterPath="$PROJECT_DIR$/algos/sampling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/poa_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/true_poa_experiment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prob/util_random.py" beforeDir="false" afterPath="$PROJECT_DIR$/prob/util_random.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/structures/brg.py" beforeDir="false" afterPath="$PROJECT_DIR$/structures/brg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/structures/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/structures/game.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,24 +26,24 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="73" />
+          <entry key="py" value="83" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="73" />
+          <entry key="Python" value="83" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="15" />
-          <entry key="py" value="12984" />
+          <entry key="dummy" value="21" />
+          <entry key="py" value="14792" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="15" />
-          <entry key="Python" value="12984" />
+          <entry key="PLAIN_TEXT" value="21" />
+          <entry key="Python" value="14792" />
         </counts>
       </usages-collector>
     </session>
@@ -64,12 +54,12 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/congestion/congestion_games_factory.py">
+        <entry file="file://$PROJECT_DIR$/structures/game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+            <state relative-caret-position="206">
+              <caret line="95" column="101" selection-start-line="95" selection-start-column="101" selection-end-line="95" selection-end-column="101" />
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#110#126#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/congestion/congestion_game_lib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+            <state relative-caret-position="57">
+              <caret line="3" column="25" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="25" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
                 <marker date="1540467117000" expanded="true" signature="111:112" ph="..." />
@@ -88,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/experiments/poa_experiment.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/experiments/true_poa_experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+            <state relative-caret-position="190">
+              <caret line="10" selection-start-line="9" selection-end-line="10" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -101,10 +91,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/prob/rademacher.py">
+        <entry file="file://$PROJECT_DIR$/congestion/congestion_games_factory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="66" column="17" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="17" />
+            <state relative-caret-position="209">
+              <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/experiments/eps_poa_experiment.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+              <folding>
+                <element signature="e#0#70#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util/plot_lib.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="28" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,8 +129,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prob/util_random.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
+            <state relative-caret-position="262">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
               <folding>
                 <element signature="e#178#196#0" expanded="true" />
               </folding>
@@ -122,28 +139,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/experiments.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="37" column="21" selection-start-line="37" selection-end-line="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/plot.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiments/congestion_games_experiments.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="74" lean-forward="true" selection-start-line="67" selection-end-line="74" />
+            <state relative-caret-position="336">
+              <caret line="49" column="37" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="37" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -179,10 +178,11 @@
       <find>compute_true_restricted_brg_for_player</find>
       <find>the_brg</find>
       <find>iter</find>
-      <find>game</find>
       <find>getWelfareMaxStrategy</find>
       <find>n</find>
       <find>print</find>
+      <find>game</find>
+      <find>noisy_sample</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/experiments</dir>
@@ -204,26 +204,27 @@
         <option value="$PROJECT_DIR$/congestion_games.py" />
         <option value="$PROJECT_DIR$/algos/psp.py" />
         <option value="$PROJECT_DIR$/structures/player.py" />
-        <option value="$PROJECT_DIR$/algos/sampling.py" />
         <option value="$PROJECT_DIR$/congestion/congestion_game_factory.py" />
         <option value="$PROJECT_DIR$/congestion/congestion_games.py" />
         <option value="$PROJECT_DIR$/structures/brg.py" />
-        <option value="$PROJECT_DIR$/structures/game_factory.py" />
-        <option value="$PROJECT_DIR$/structures/game.py" />
         <option value="$PROJECT_DIR$/experiments/plot_lib.py" />
         <option value="$PROJECT_DIR$/congestion/congestion_games_experiments.py" />
-        <option value="$PROJECT_DIR$/prob/util_random.py" />
         <option value="$PROJECT_DIR$/experiments/__init__.py" />
         <option value="$PROJECT_DIR$/congestion/congestion_games_factory.py" />
         <option value="$PROJECT_DIR$/congestion/congestion_game_lib.py" />
         <option value="$PROJECT_DIR$/experiments/welfare_experiments.py" />
         <option value="$PROJECT_DIR$/experiments/poa_experiment.py" />
+        <option value="$PROJECT_DIR$/algos/sampling.py" />
+        <option value="$PROJECT_DIR$/structures/game.py" />
+        <option value="$PROJECT_DIR$/structures/game_factory.py" />
+        <option value="$PROJECT_DIR$/experiments/eps_poa_experiment.py" />
+        <option value="$PROJECT_DIR$/prob/util_random.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="92" />
-    <option name="y" value="190" />
+    <option name="x" value="-1" />
+    <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="773" />
   </component>
@@ -238,6 +239,31 @@
             <path>
               <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
               <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+              <item name="algos" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+              <item name="congestion" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+              <item name="experiments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+              <item name="prob" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gamelearning" type="462c0819:PsiDirectoryNode" />
+              <item name="structures" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="gamelearning" type="b2602c69:ProjectViewProjectNode" />
@@ -275,7 +301,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.welfare_experiments">
+  <component name="RunManager" selected="Python.eps_poa_experiments">
     <configuration name="Test Sampling" type="PythonConfigurationType" factoryName="Python">
       <module name="gamelearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -402,6 +428,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="eps_poa_experiments" type="PythonConfigurationType" factoryName="Python">
+      <module name="gamelearning" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/anaconda/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/experiments" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/eps_poa_experiment.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="game_factory" type="PythonConfigurationType" factoryName="Python">
       <module name="gamelearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -423,7 +470,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="welfare_experiments" type="PythonConfigurationType" factoryName="Python">
+    <configuration name="poa_experiments" type="PythonConfigurationType" factoryName="Python">
       <module name="gamelearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -435,7 +482,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/poa_experiment.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/experiments/true_poa_experiment.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -449,7 +496,8 @@
       <item itemvalue="Python.congestiongame_exp" />
       <item itemvalue="Python.congestion_lib" />
       <item itemvalue="Python.game_factory" />
-      <item itemvalue="Python.welfare_experiments" />
+      <item itemvalue="Python.poa_experiments" />
+      <item itemvalue="Python.eps_poa_experiments" />
       <item itemvalue="Python.congestion_game_factory" />
       <item itemvalue="Python.congestiongames" />
       <item itemvalue="Python.Test Sampling" />
@@ -469,15 +517,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="773" extended-state="6" />
+    <frame x="-1" y="23" width="1280" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992272" visible="true" weight="0.24543288" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992272" visible="true" weight="0.24543288" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5007728" side_tool="true" weight="0.16271722" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32892805" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.38472834" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.23212436" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5741556" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -520,26 +568,6 @@
     <entry file="file://$PROJECT_DIR$/experiments/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/plot_lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/structures/game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="122" column="24" selection-start-line="122" selection-start-column="24" selection-end-line="122" selection-end-column="24" />
-          <folding>
-            <element signature="e#110#126#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/structures/player.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -578,10 +606,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1509">
+          <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algos/psp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="95" column="29" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="37" column="21" selection-start-line="37" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/structures/game_factory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-61">
-          <caret line="14" column="35" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="35" />
+        <state relative-caret-position="323">
+          <caret line="17" column="78" selection-start-line="17" selection-start-column="78" selection-end-line="17" selection-end-column="78" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
             <marker date="1540445165000" expanded="true" signature="70:71" ph="..." />
@@ -590,44 +639,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prob/rademacher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="66" column="17" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prob/util_random.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
-          <folding>
-            <element signature="e#178#196#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/congestion/congestion_games_factory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/congestion/congestion_game_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+        <state relative-caret-position="57">
+          <caret line="3" column="25" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="25" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
             <marker date="1540467117000" expanded="true" signature="111:112" ph="..." />
@@ -635,46 +650,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/experiments.py">
+    <entry file="file://$PROJECT_DIR$/util/plot_lib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="37" column="21" selection-start-line="37" selection-end-line="38" />
+        <state relative-caret-position="76">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/congestion_games_experiments.py">
+    <entry file="file://$PROJECT_DIR$/prob/rademacher.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="74" lean-forward="true" selection-start-line="67" selection-end-line="74" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="487">
+          <caret line="67" column="61" selection-start-line="67" selection-start-column="54" selection-end-line="67" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algos/sampling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="23" column="116" selection-start-line="23" selection-start-column="116" selection-end-line="23" selection-end-column="116" />
+        <state relative-caret-position="220">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="42" />
           <folding>
             <element signature="e#183#209#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algos/psp.py">
+    <entry file="file://$PROJECT_DIR$/structures/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1767">
-          <caret line="95" column="29" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="29" />
+        <state relative-caret-position="206">
+          <caret line="95" column="101" selection-start-line="95" selection-start-column="101" selection-end-line="95" selection-end-column="101" />
+          <folding>
+            <element signature="e#110#126#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/experiments/poa_experiment.py">
+    <entry file="file://$PROJECT_DIR$/experiments/congestion_games_experiments.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        <state relative-caret-position="336">
+          <caret line="49" column="37" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/true_poa_experiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" selection-start-line="9" selection-end-line="10" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congestion/congestion_games_factory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prob/util_random.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#178#196#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/experiments/eps_poa_experiment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#70#0" expanded="true" />
           </folding>
         </state>
       </provider>

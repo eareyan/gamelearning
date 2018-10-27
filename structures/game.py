@@ -93,8 +93,7 @@ class Game:
         """ 
         Generates m noisy samples of each strategy profile and player of the game.
         """
-        return {strat_profile_player: [self.noisy_sample(strat_profile_player) for sample in range(0, m)]
-                for strat_profile_player, payoff in self.payoffs.items()}
+        return {strat_profile_player: [self.noisy_sample(strat_profile_player) for k in range(0, m)] for strat_profile_player, payoff in self.payoffs.items()}
 
     def get_other_strategies(self, player_index: int) -> list:
         """

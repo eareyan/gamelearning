@@ -16,8 +16,7 @@ def simple_sampling(game_input, delta, num_samples, HoeffdingIneq=False):
     samples = game_input.get_noisy_samples(num_samples)
     # Compute confidence intervals for the entire game
     if HoeffdingIneq:
-        (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(samples, num_samples, delta, True,
-                                                                         len(game_input.payoffs))
+        (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(samples, num_samples, delta, True, len(game_input.payoffs))
     else:
         (eps, conf) = rademacher.Rademacher.compute_confidence_intervals(samples, num_samples, delta)
     # Compute \hat{BRG}(\eps), i.e., the estimated epsilon BRG.
