@@ -38,7 +38,7 @@ for t in range(0, 9):
         if i % 200 == 0:
             print("\t\t i = ", i, ", alpha = ", alpha)
         # Draw a game and get the value of the worst pure nash
-        game = CongestionGamesFactory.create_power_law_game(n, m, alpha)
+        game = CongestionGamesFactory.create_random_power_law_game(n, m, alpha)
         list_or_pure_nash = BRG.getListOfPureNash(game, BRG.get_true_brg(game))
         worst_nash = min([game.get_sum_of_payoffs(nash) for nash in list_or_pure_nash])
         # Get the welfare max game and optimal welfare

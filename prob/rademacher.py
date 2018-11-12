@@ -4,68 +4,62 @@
 Created on Mon Apr 30 13:01:15 2018
 
 @author: eareyanv
-    A class centralizing all operations involving Rademacher complexity, including 
-    computation of confidence intervals.
+    A class centralizing all operations involving Rademacher complexity, including computation of confidence intervals.
 """
 import numpy as np
 import math
-from prob import util_random
 
 
 class Rademacher:
-    
+
     @staticmethod
     def sample_rade_vars(m):
         """
             Compute a vector of m Rademacher variables, i.e., variables that
             are -1 with probability 1/2 and 1 with probability 1/2.
             """
-        return [1 if np.random.uniform(0, 1) >= 0.5 else -1 for i in range(0,m)]
-    
+        return [1 if np.random.uniform(0, 1) >= 0.5 else -1 for i in range(0, m)]
+
     @staticmethod
     def one_draw_emp_rc(samples, rade_vars, m):
         """
             Compute the 1-Draw Empirical Rademacher Complexity
         """
-        if(len(rade_vars) != m):
-            raise Exception('The lenght of the rademacher vector should be ' 
-                            + str(m) + ' but is ' + str(len(rade_vars)))
+        if len(rade_vars) != m:
+            raise Exception('The lenght of the rademacher vector should be ' + str(m) + ' but is ' + str(len(rade_vars)))
         avg_utilities = []
-        for (strat_profile_player, utility_sample) in samples.items():
+        for (strategy_profile_player, utility_sample) in samples.items():
             number_of_samples = len(utility_sample)
-            if(number_of_samples != m):
-                raise Exception('The number of samples for profile ' 
-                                + str(strat_profile_player) + ' is ' + str(number_of_samples)
-                                + ' but should be ' + str(m))
-            avg_utilities.append(max(0.0, sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples))
-            #avg_utilities.append(sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples)
+            if number_of_samples != m:
+                raise Exception('The number of samples for profile ' + str(strategy_profile_player) + ' is ' + str(number_of_samples) + ' but should be ' + str(m))
+            # At some point we tested this weird expression.
+            #avg_utilities.append(max(0.0, sum(i[0] * (i[1] - 0.5) for i in zip(rade_vars, utility_sample)) / number_of_samples))
+            avg_utilities.append(sum(i[0] * i[1] for i in zip(rade_vars, utility_sample)) / number_of_samples)
         return max(avg_utilities)
-    
+
     @staticmethod
-    def compute_confidence_intervals(samples, m, delta, HoeffdingIneq = False, sizeOfFamily = -1):
+    def compute_confidence_intervals(samples, m, delta, hoeffding_inequality=False, size_of_family=-1):
         """
             Given a set of m samples and delta, compute the confidence interval
             for each strategy profile and player.
         """
-        if HoeffdingIneq:
-            if sizeOfFamily < 0:
+        if hoeffding_inequality:
+            if size_of_family < 0:
                 raise Exception('Size of family must be a positive integer')
-            #print('sizeOfFamily = ', sizeOfFamily)
-            eta = util_random.noise_c * math.sqrt((math.log((2.0 * sizeOfFamily) / delta)) / (2.0 * m))
+            # For experimental purposes, I have set c = 1 here.
+            eta = math.sqrt((math.log((2.0 * size_of_family) / delta)) / (2.0 * m))
             radius = eta
         else:
-            eta = 3.0 * util_random.noise_c * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
-            #eta =  3.0 * math.sqrt((math.log(2 / delta)) / (2 * m))
-            r   = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
+            # For experimental purposes, I have set c = 1 here.
+            eta = 3.0 * math.sqrt((math.log(2.0 / delta)) / (2.0 * m))
+            # We might me able to tight the bound, but its seems difficult:
+            #eta = 2.0 * math.sqrt((math.log(1.0 / delta)) / (2.0 * m))
+            r = Rademacher.one_draw_emp_rc(samples, Rademacher.sample_rade_vars(m), m)
             radius = 2.0 * r + eta
-            #print('eta = ', eta)
-            #print('r = ', r)
-            #print('eps = ' , eps)
-        #print('width = ', width)
         eps = 2.0 * radius
-        aveg_util = {}
+        average_util = {}
         conf_util = {}
-        for (strat_profile_player, utility_sample) in samples.items():
-            aveg_util[strat_profile_player] = sum(u for u in utility_sample) / m
-            conf_util[strat_profile_player] = (aveg_util[strat_profile_player] - radius, aveg_util[strat_profile_player] + radius)
-        return (eps, conf_util)
+        for (strategy_profile_player, utility_sample) in samples.items():
+            average_util[strategy_profile_player] = sum(u for u in utility_sample) / m
+            conf_util[strategy_profile_player] = (average_util[strategy_profile_player] - radius, average_util[strategy_profile_player] + radius)
+        return eps, conf_util

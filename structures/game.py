@@ -38,16 +38,17 @@ class Game:
 
     def __str__(self):
         """ String representation of a game """
-        return "Game: " + str(self.name) \
-               + ". \n\t Players: \n\t\t" \
+        return "Game: " + str(self.name) + " with " + str(self.numPlayers) + " players." \
+               + "\n\t Players: \n\t\t" \
                + ('\n\t\t'.join(str(player) for player in self.listOfPlayers)) \
-               + "\n\t Payoffs: \n\t\t" + str(self.payoffs)
+               + "\n\t Payoffs: \n\t\t" + str(self.payoffs) \
+               + "\n\t Size of game:" + str(len(self.payoffs))
 
     def get_max_payoff(self) -> float:
         """ Get the maximum payoff among all possible payoffs """
         return max(self.payoffs.items(), key=lambda e: e[1])[1]
 
-    def get_neiborhood(self, strat_profile_player: tuple) -> list:
+    def get_neighborhood(self, strat_profile_player: tuple) -> list:
         """
             Given a tuple of strategy profile with player, returns the corresponding strategic neighbor as a list of 
             tuples of strategy profile with player.
@@ -70,30 +71,36 @@ class Game:
                     # Vary the actions of player i
                     strat.insert(j, a)
             # By convention, the last member of the tuple denotes the player to which this profile refers to.
-            # TODO: perhaps refactor this such that we separate the strategy prpfile from the reference of a player.
+            # TODO: perhaps refactor this such that we separate the strategy profile from the reference of a player.
             strat.insert(len(strat_profile_player), i)
             neigh += [tuple(x for x in strat)]
         return neigh
 
-    def noisy_sample(self, strat_profile_player: tuple) -> float:
+    def noisy_sample(self, strat_profile_player: tuple, noise_function = None) -> float:
         """
         Generates a single noisy sample for the given complete strategy profile received as a tuple.
         """
-        return self.payoffs[strat_profile_player] + util_random.get_noise()
+        return self.payoffs[strat_profile_player] + (util_random.get_noise() if noise_function is None else noise_function())
         # return self.payoffs[strat_profile_player]
 
-    def get_subset_noisy_samples(self, m: int, profiles: object) -> dict:
+    def get_noisy_strat_sample(self, m: int, strat_profile_player: tuple, noise_function=None) -> list:
+        """
+        Generates a list of noisy samples for a given strategy profile
+        """
+        return [self.noisy_sample(strat_profile_player, noise_function) for j in range(0, m)]
+
+    def get_subset_noisy_samples(self, m: int, profiles: object, noise_function = None) -> dict:
         """
         Generates m noisy samples of each strategy profile and player received as parameter.
         """
-        return {strat_profile_player: [self.noisy_sample(strat_profile_player) for sample in range(0, m)]
+        return {strat_profile_player: [self.noisy_sample(strat_profile_player, noise_function) for sample in range(0, m)]
                 for strat_profile_player in profiles}
 
-    def get_noisy_samples(self, m: int) -> dict:
+    def get_noisy_samples(self, m: int, noise_function=None) -> dict:
         """ 
         Generates m noisy samples of each strategy profile and player of the game.
         """
-        return {strat_profile_player: [self.noisy_sample(strat_profile_player) for k in range(0, m)] for strat_profile_player, payoff in self.payoffs.items()}
+        return {strat_profile_player: [self.noisy_sample(strat_profile_player, noise_function) for k in range(0, m)] for strat_profile_player, payoff in self.payoffs.items()}
 
     def get_other_strategies(self, player_index: int) -> list:
         """
@@ -101,8 +108,7 @@ class Game:
         """
         if player_index >= self.numPlayers:
             raise Exception(
-                'Player index ' + str(player_index) + ' out of range, player index should be between 0 and ' + str(
-                    self.numPlayers - 1))
+                'Player index ' + str(player_index) + ' out of range, player index should be between 0 and ' + str(self.numPlayers - 1))
         # Construct and return a list of lists with the cartesian product of all players' strategies except that of player_index
         return [list(other_strats)
                 for other_strats in itertools.product(*[[a for a in range(0, self.listOfPlayers[j].numActions)]

@@ -1,6 +1,6 @@
 from congestion.congestion_games_factory import CongestionGamesFactory
 from structures.game_factory import GameFactory
-from algos.sampling import simple_sampling
+from algos.sampling import global_sampling
 from structures.brg import BRG
 from util.plot_lib import mean_confidence_interval
 import pandas as pd
@@ -24,7 +24,7 @@ for t in range(1, 8):
         the_game = simpleCongestionGame1()
         #the_game = CongestionGamesFactory.create_power_law_game(n, m, alpha)
         list_or_pure_nash = BRG.getListOfPureNash(the_game, BRG.get_true_brg(the_game))
-        (eps, conf, dict_individual_estimated_eps_brgs) = simple_sampling(the_game, delta, num_samples)
+        (eps, conf, dict_individual_estimated_eps_brgs) = global_sampling(the_game, delta, num_samples)
         list_of_pure_estimated_nash = BRG.getListOfPureNash(the_game, BRG.merge_directed_graphs(dict_individual_estimated_eps_brgs))
         point_estimates = {k: v[0] + (eps / 2.0) for k, v in conf.items()}
         cost_of_nashs = {nash: sum([point_estimates[nash + (p,)] for p in range(0, the_game.numPlayers)]) for nash in list_of_pure_estimated_nash}
@@ -41,7 +41,7 @@ for t in range(1, 8):
         # Estimate the nash of the welfare game
         welfare_game = GameFactory.getWelfareGame(the_game)
         list_or_pure_nash_welfare = BRG.getListOfPureNash(welfare_game, BRG.get_true_brg(welfare_game))
-        (eps_welfare, conf_welfare, dict_individual_estimated_eps_brgs_welfare) = simple_sampling(welfare_game, delta, num_samples)
+        (eps_welfare, conf_welfare, dict_individual_estimated_eps_brgs_welfare) = global_sampling(welfare_game, delta, num_samples)
         list_of_pure_estimated_nash_welfare = BRG.getListOfPureNash(welfare_game, BRG.merge_directed_graphs(dict_individual_estimated_eps_brgs_welfare))
         optimal_estimated_welfare = max([v[0] + (eps_welfare / 2.0) for k, v in conf_welfare.items() if k[-1] == 0])
         estimates = estimates + [worst_nash_estimated / optimal_estimated_welfare]

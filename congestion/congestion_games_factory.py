@@ -25,7 +25,7 @@ class CongestionGamesFactory:
         return False
 
     @staticmethod
-    def create_power_law_game(n, m, alpha):
+    def create_random_power_law_game(n, m, alpha):
         # Currently, all cost functions are the identity function.
         facilities_cost_functions = {i: lambda x: x for i in range(0, m)}
         strats = {}
@@ -37,7 +37,3 @@ class CongestionGamesFactory:
                 if not CongestionGamesFactory.check_repeat_strategy(strat, strats[p]):
                     strats[p][len(strats[p])] = strat
         return congestion_games.CongestionGame("random power law congestion game", n, m, strats, facilities_cost_functions)
-
-    @staticmethod
-    def getRandomPowerLawGame(n, m, alpha):
-        return CongestionGamesFactory.create_power_law_game(n, m, alpha)

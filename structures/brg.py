@@ -33,7 +33,7 @@ class BRG:
         for s in player_zero_strats_with_player:
             # Compute the neighborhood of the strategy 0 for fixed strategy of other players
             list_neigh_strats_with_payoffs = [(strat, game_input.payoffs[strat]) for strat in
-                                              game_input.get_neiborhood(s)]
+                                              game_input.get_neighborhood(s)]
             # Compute a strategy with maximal payoff
             max_strat = max(list_neigh_strats_with_payoffs, key=lambda e: e[1])
             # Partition the neiborhood into max and min, where max are all the profiles with maximal utility
@@ -79,7 +79,7 @@ class BRG:
 
     @staticmethod
     def compute_max_min_neigh(game_input: game, strat_profile_player: tuple, conf_util: dict) -> tuple:
-        neigh = game_input.get_neiborhood(strat_profile_player)
+        neigh = game_input.get_neighborhood(strat_profile_player)
         conf_neigh = {s: conf_util[s] for s in neigh}
         max_inter = max(conf_neigh.items(), key=lambda e: e[1][0])[1]
         max_neigh = [strat_profile_player for (strat_profile_player, conf) in conf_neigh.items() if
@@ -89,7 +89,7 @@ class BRG:
         return (max_neigh, min_neigh)
 
     @staticmethod
-    def merge_directed_graphs(dict_of_restricted_brg : dict) -> nx.MultiDiGraph:
+    def merge_directed_graphs(dict_of_restricted_brg: dict) -> nx.MultiDiGraph:
         """ Given a dictionary: {player_index : restricted BRG}, construct the final best response graph. """
         the_brg = nx.MultiDiGraph()
         for player, restricted_BRG in dict_of_restricted_brg.items():
@@ -115,6 +115,15 @@ class BRG:
             pure_nash = pure_nash + [n] if edges_data is not None and len(edges_data) == game_input.numPlayers \
                 else pure_nash
         return pure_nash
+
+    @staticmethod
+    def brg_containment_checker(game_input: game, dict_individual_brgs_1: dict, dict_individual_brgs_2: dict):
+        """ Given a game and two dictionaries of individual BRGS, check if the first BRG is contained in the second. """
+        # For each player, check if the first brg is contained in the second.
+        for i in range(0, game_input.numPlayers):
+            if not (BRG.isG1ContainedInG2(dict_individual_brgs_1[i], dict_individual_brgs_2[i])):
+                return False
+        return True
 
     # TODO: if at all interesting, try to plot the BRG. Here is an example.
     @staticmethod

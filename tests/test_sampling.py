@@ -30,7 +30,7 @@ def test_simple_sampling(test_game, num_tests, delta, m, HoeffdingIneq = False):
         if(t % 50 == 0):
             print( 't = ', t)
         # Run the simple sampling algorithm. Get eps, conf, and the individuals BRG.
-        (eps, conf, dict_individual_estimated_eps_brgs) = sampling.simple_sampling(test_game, delta, m, HoeffdingIneq)
+        (eps, conf, dict_individual_estimated_eps_brgs) = sampling.global_sampling(test_game, delta, m, HoeffdingIneq)
         # Construct the estimated BRG. Here we construct all individual BRGs
         dict_individual_estimated_eps_brgs  = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(test_game, conf)
         # Compute true BRG(2*\eps)
