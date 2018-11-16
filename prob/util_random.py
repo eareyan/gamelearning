@@ -18,7 +18,7 @@ noise_c = 2
 #noise_c = 10
 #noise_c = 1
 #random_game_noise_c = 100
-random_game_noise_c = 10
+random_game_noise_c = 100
 
 
 def get_noise():
@@ -34,7 +34,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def generate_random_game(num_players, max_num_actions=2, random_num_actions=True, noise_function = None):
+def generate_random_game(num_players, max_num_actions=2, random_num_actions=True, rewards_function = None):
     if random_num_actions:
         players_num_actions = [random.randint(1, max_num_actions) for i in range(0, num_players)]
     else:
@@ -45,6 +45,6 @@ def generate_random_game(num_players, max_num_actions=2, random_num_actions=True
     payoffs = {}
     for i in range(0, len(players_num_actions)):
         for s in strat_profiles:
-            payoffs[tuple(s) + (i,)] = np.random.uniform(-random_game_noise_c / 2, random_game_noise_c / 2) if noise_function is None else noise_function()
+            payoffs[tuple(s) + (i,)] = np.random.uniform(-random_game_noise_c / 2, random_game_noise_c / 2) if rewards_function is None else rewards_function()
     listofplayers = [player.Player(n) for n in players_num_actions]
     return game.Game('Random Game', listofplayers, payoffs)

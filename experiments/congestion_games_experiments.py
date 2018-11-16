@@ -10,7 +10,7 @@ from prob import util_random
 #a_random_game = CongestionGamesFactory.create_random_power_law_game(5, 5, 0.1)
 
 # Create a random game.
-a_random_game = util_random.generate_random_game(10, 2, False, noise_function=lambda: np.random.uniform(0.0, 0.5))
+a_random_game = util_random.generate_random_game(10, 2, False, rewards_function=lambda: np.random.uniform(0.0, 0.5))
 
 print(a_random_game)
 

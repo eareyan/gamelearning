@@ -11,12 +11,18 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import numpy as np
 import matplotlib
+import math
 
 
 font = {'family' : 'normal',
         'size'   : 12}
 
 matplotlib.rc('font', **font)
+
+
+def compute_num_samples(eps_tol, delta_tol, size_of_game):
+    return -1.0 * math.log(1.0 - (1.0 - delta_tol) ** (1.0 / size_of_game)) / (2 * eps_tol * eps_tol)
+
 
 def plot_num_failures(ps_data, psp_data):
     """ Plot num failures of an algorithm """
@@ -39,11 +45,14 @@ def save_sample_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rade
     """ Plot m (data complexity) """
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.set_yscale('log')
-    plt.plot(ps_rademacher_plot_data['m'], label = 'Progressive Sampling (rademacher)')
-    plt.plot(psp_rademacher_plot_data['m'], label = ' Progressive Sampling with Prunning (rademacher)')
-    plt.plot(ps_hoeffding_plot_data['m'], label = 'Progressive Sampling (hoeffding)')
+    #ax.set_yscale('log')
+    #plt.plot(ps_rademacher_plot_data['m'], label = 'Progressive Sampling (rademacher)')
+    #plt.plot(psp_rademacher_plot_data['m'], label = ' Progressive Sampling with Prunning (rademacher)')
+    #plt.plot(ps_hoeffding_plot_data['m'], label = 'Progressive Sampling (hoeffding)')
     plt.plot(psp_hoeffding_plot_data['m'], label = ' Progressive Sampling with Prunning (hoeffding)')
+    print(psp_hoeffding_plot_data)
+    grid = [0.01 + (i * 0.001) for i in range(1, 31)]
+    plt.plot(grid, [compute_num_samples(eps, 0.1, 12) for eps in grid], label='Required number')
     plt.legend()
     ax.yaxis.set_major_formatter(mtick.StrMethodFormatter('{x:,.0f}'))
     plt.title('Sample complexity \n ' + title_post_fix)
@@ -51,7 +60,7 @@ def save_sample_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rade
     plt.ylabel('Number of samples')
     fig.text(0, -.1, caption, ha='left')
     fig.set_size_inches(8, 5)
-    fig.savefig('plots/sample_' + str(num_players) + '_players_' + str(num_actions) + '_actions.png', bbox_inches='tight')
+    fig.savefig('/Users/enriqueareyan/Documents/workspace/gamelearning/data/plots/sample_' + str(num_players) + '_players_' + str(num_actions) + '_actions.png', bbox_inches='tight')
     plt.show()
 
 def save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption):
@@ -73,9 +82,9 @@ def save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_radema
     fig.savefig('plots/time_' + str(num_players) + '_players_' + str(num_actions) + '_actions.png', bbox_inches='tight')
     
 
-
+"""
 results_dict = {'QY6V82': (2, 2),
-                'X8EAEG': (2, 3), 
+                'X8EAEG': (2, 3) ,
                 'IDQNX7': (2, 4), 
                 'ES7N6O': (3, 2),
                 'HMC1SF': (3, 3),
@@ -83,10 +92,16 @@ results_dict = {'QY6V82': (2, 2),
                 'M0DZOA': (4, 2),
                 'MM0KZ6': (4, 3),
                 'K1UMF0': (5, 2)}
+"""
+
+results_dict = {'X8EAEG': (2, 3)}
+                #'IDQNX7':(2,4)}
 
 for (game_id, (num_players, num_actions)) in results_dict.items():
-    results = pd.read_csv('results/progressive_data_num_players_' + str(num_players) + '_num_actions_' + str(num_actions) + '_' + game_id + '.csv')
-    
+    results = pd.read_csv('/Users/enriqueareyan/Documents/workspace/gamelearning/data/results/progressive_data_num_players_' + str(num_players) + '_num_actions_' + str(num_actions) + '_' + game_id + '.csv')
+
+    results = results[results['eps'] <= 0.03]
+
     m = 100
     max_num_samples = 100000
     caption = 'Parameters: \n  Failure probability $\delta = 0.1$, \n  Initial number of samples is ' + str(m) + ' \n  Maximum number of samples is ' + "{:,}".format(max_num_samples)
@@ -113,5 +128,5 @@ for (game_id, (num_players, num_actions)) in results_dict.items():
     
     # Plot
     save_sample_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption)
-    save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption)
+    #save_time_plot(num_players, num_actions, ps_rademacher_plot_data, psp_rademacher_plot_data, ps_hoeffding_plot_data, psp_hoeffding_plot_data, title_post_fix, caption)
  

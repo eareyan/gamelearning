@@ -32,16 +32,20 @@ def intersect_conf(conf1, conf2):
     return final_confs
 
 
-def psp(game_input, eps, delta, initial_num_samples=100, max_num_samples=25600, HoeffdingIneq=False, verbose=False):
+def psp(game_input, eps, delta, initial_num_samples=100, max_num_samples=25600, HoeffdingIneq=False, verbose=False, noise_function=None):
     """
     Implements progressive sampling with prunning. For now, just a doubling schedule.
     """
-    # Collect an initial sample of all strat profile-player pairs
-    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(initial_num_samples), initial_num_samples, delta, HoeffdingIneq, len(game_input.payoffs))
-    # Keep track of how many samples were taken for each strat profile-player pair
-    total_num_samples = {s: initial_num_samples for (s, u) in game_input.payoffs.items()}
     # This function implements a doubling schedule. Compute the number of iterations.
     n = math.floor(math.log((max_num_samples / initial_num_samples) + 1, 2))
+    inner_delta = delta / n
+    # Collect an initial sample of all strat profile-player pairs
+    (eps_t, conf_t_before) = rademacher.Rademacher.compute_confidence_intervals(game_input.get_noisy_samples(initial_num_samples, noise_function), initial_num_samples, inner_delta, HoeffdingIneq, game_input.get_size_of_game())
+    if verbose:
+        print('delta at each call of global sampling = ', inner_delta)
+        print('num_samples = ', initial_num_samples, '\t eps_', 0, ' = ', eps_t, '\t pruned so far = ', 0)
+    # Keep track of how many samples were taken for each strat profile-player pair
+    total_num_samples = {s: initial_num_samples for (s, u) in game_input.payoffs.items()}
     if verbose:
         print('n = ', n, ', target_eps = ', eps, ', initial_num_samples = ', initial_num_samples, ', max_num_samples =', max_num_samples)
     prune_set = set()
@@ -49,8 +53,10 @@ def psp(game_input, eps, delta, initial_num_samples=100, max_num_samples=25600, 
         delta_t = t * (delta / n)
         if eps_t <= eps:
             # Compute \hat{BRG}(\eps), i.e., the estimated epsilon BRG.
+            if verbose:
+                print('Able to find guarantees')
             dict_individual_estimated_eps_brgs = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(game_input, conf_t_before)
-            return (total_num_samples, eps_t, delta_t, conf_t_before, dict_individual_estimated_eps_brgs)
+            return total_num_samples, eps_t, delta_t, conf_t_before, dict_individual_estimated_eps_brgs, True
         keep_list = []
         # For each player and each neighborhood
         for i in range(0, game_input.numPlayers):
@@ -59,28 +65,29 @@ def psp(game_input, eps, delta, initial_num_samples=100, max_num_samples=25600, 
                 prune_set |= set(min_neigh)
                 keep_list += max_neigh
         num_samples = (2 ** t) * initial_num_samples
-        new_samples = game_input.get_subset_noisy_samples(num_samples, keep_list)
-        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, num_samples, delta_t, HoeffdingIneq, len(keep_list))
+        new_samples = game_input.get_subset_noisy_samples(num_samples, keep_list, noise_function)
+        (eps_t, conf_t_after) = rademacher.Rademacher.compute_confidence_intervals(new_samples, num_samples, inner_delta, HoeffdingIneq, len(keep_list))
         conf_t_before = intersect_conf(conf_t_before, conf_t_after)
         if conf_t_before is None:
             if verbose:
                 print("Failed to intersect confidence intervals, abort. ")
-            return None, None, None, None, None
+            return total_num_samples, eps_t, delta_t, conf_t_before, None, False
         # Collect number of samples each profile is sampled.
         for s in keep_list:
             total_num_samples[s] = total_num_samples[s] + num_samples
         if verbose:
-            print('num_samples = ', num_samples, ', eps_', t, ' = ', eps_t, ', pruned so far = ', len(prune_set))
+            #print(keep_list, num_samples)
+            print('num_samples = ', num_samples, '\t eps_', t, ' = ', eps_t, '\t keep_list_len =', len(keep_list), '\t pruned so far = ', len(prune_set))
 
     if eps_t <= eps:
         if verbose:
             print('done at t = ', t)
         # Compute \hat{BRG}(\eps), i.e., the estimated epsilon BRG.
         dict_individual_estimated_eps_brgs = brg.BRG.construct_all_estimated_eps_individual_restricted_brgs(game_input, conf_t_before)
-        return (total_num_samples, eps_t, delta_t, conf_t_before, dict_individual_estimated_eps_brgs)
+        return total_num_samples, eps_t, delta_t, conf_t_before, dict_individual_estimated_eps_brgs, True
     else:
         # If execution reaches this lines, then the algorithm failed.
-        return None, None, None, None, None
+        return total_num_samples, eps_t, delta_t, conf_t_before, None, False
 
     # If there is no active profile across all profiles
     # but epsilon is not as small as wanted by the user, then what?

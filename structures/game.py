@@ -44,6 +44,10 @@ class Game:
                + "\n\t Payoffs: \n\t\t" + str(self.payoffs) \
                + "\n\t Size of game:" + str(len(self.payoffs))
 
+    def get_size_of_game(self):
+        """ The size of the game is defined as the number of utility function that need to be estimated. """
+        return len(self.payoffs)
+
     def get_max_payoff(self) -> float:
         """ Get the maximum payoff among all possible payoffs """
         return max(self.payoffs.items(), key=lambda e: e[1])[1]

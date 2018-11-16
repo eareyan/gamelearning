@@ -25,7 +25,7 @@ def check_eps_nash(eps, the_game, S, empirical_means):
 # the_game = test_games.get_testGame()
 # the_game = test_games.get_game3Players()
 # the_game = test_games.get_game2Players()
-the_game = util_random.generate_random_game(2, 3, random_num_actions=False)
+the_game = util_random.generate_random_game(4, 3, random_num_actions=False)
 #the_game = CongestionGamesFactory.create_random_power_law_game(3, 3, 0.1)
 #the_game = test_games.get_epsNashGame()
 
@@ -33,7 +33,7 @@ the_game = util_random.generate_random_game(2, 3, random_num_actions=False)
 print(the_game)
 
 # Parameters of the search
-eps = 0.5
+eps = 0.05
 delta = 0.1
 m = compute_num_samples(eps, delta, len(the_game.payoffs))
 m = math.ceil(m)
