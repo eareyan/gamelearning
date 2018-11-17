@@ -8,18 +8,18 @@ from congestion import congestion_games_factory
 
 print("Failure experiments")
 # We fix the number of samples used by GS here.
-num_samples = 1
+num_samples = 100
 # Structure of the results.
 results_df = pd.DataFrame([], columns=['game', 'noise', 'discount', 'delta', 'mean', 'lower', 'upper'])
 
-for num_games in range(0, 100):
+for num_games in range(0, 10):
     for g in [0, 1]:
         # Draw a random game.
         test_game = util_random.generate_random_game(3, 3) if g == 0 else congestion_games_factory.CongestionGamesFactory.create_random_power_law_game(3, 3, 0.5)
         # Compute true BRG.
         dict_individual_true_brgs = brg.BRG.construct_all_true_individual_restricted_brgs(test_game)
         print("\nuniform random game "  + str(num_games) if g == 0 else "\nfininte congestion game " + str(num_games))
-        for discount_factor in [1.0, 0.75, 0.5, 0.25]:
+        for discount_factor in [1.0, 0.875, 0.75, 0.625, 0.5]:
             print("")
             for noise_value in [5, 10, 50]:
                 f = lambda: np.random.uniform(-noise_value / 2, noise_value / 2)

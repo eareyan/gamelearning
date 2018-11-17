@@ -43,16 +43,15 @@ for N_gamma in [1024, 324, 24, 8]:
 
     # Plot eps(m)
     next_line_style = next(line_styles_iterator)
-    plt.semilogx(psp['m'], psp['eps'], label=r'$N_\Gamma$ = ' + str(N_gamma), color='r', linestyle=next_line_style)
-    plt.semilogx(psp['m'], [compute_epsilon(t / N_gamma, 0.1, N_gamma) for t in psp['m']], label=r'$N_\Gamma$ = ' + str(N_gamma),
-                 color='g', linestyle=next_line_style)
+    plt.semilogx(psp['m'], psp['eps'], label=r'$N_\Gamma$ = ' + str(N_gamma), color='gray', linestyle=next_line_style)
+    plt.semilogx(psp['m'], [compute_epsilon(t / N_gamma, 0.1, N_gamma) for t in psp['m']], label=r'$N_\Gamma$ = ' + str(N_gamma), color='orange', linestyle=next_line_style)
     plt.text(1500, 0.30, "Algorithm 1 (GS)", fontdict={#'family': 'serif',
-                                                  'color': 'green',
+                                                  'color': 'gray',
                                                   'weight': 'normal',
                                                   'size': 12,
                                                   })
     plt.text(1500, 0.28, "Algorithm 2 (PSP)", fontdict={#'family': 'serif',
-                                                  'color': 'red',
+                                                  'color': 'orange',
                                                   'weight': 'normal',
                                                   'size': 12,
                                                   })
