@@ -40,7 +40,7 @@ class Rademacher:
         return max(avg_utilities)
 
     @staticmethod
-    def compute_confidence_intervals(samples, m, delta, hoeffding_inequality=False, size_of_family=-1, discount_factor=1.0):
+    def compute_confidence_intervals(samples, m, delta, hoeffding_inequality=False, size_of_family=-1, discount_factor=1.0, return_only_means=False):
         """
             Given a set of m samples and delta, compute the confidence interval
             for each strategy profile and player.
@@ -50,8 +50,8 @@ class Rademacher:
                 raise Exception('Size of family must be a positive integer')
             # For experimental purposes, I have set c = 1 here.
             # print("Computing H for:", m, delta, size_of_family)
-            # eta = math.sqrt((math.log((2.0 * size_of_family) / delta)) / (2.0 * m))
-            eta = math.sqrt(-1.0 * math.log(1.0 - (1.0 - delta) ** (1.0 / size_of_family)) / (2 * m))
+            eta = math.sqrt((math.log((2.0 * size_of_family) / delta)) / (2.0 * m))
+            # eta = math.sqrt(-1.0 * math.log(1.0 - (1.0 - delta) ** (1.0 / size_of_family)) / (2 * m))
             radius = eta
         else:
             # For experimental purposes, I have set c = 1 here.
@@ -65,6 +65,8 @@ class Rademacher:
         conf_util = {}
         for (strategy_profile_player, utility_sample) in samples.items():
             average_util[strategy_profile_player] = sum(u for u in utility_sample) / m
-            conf_util[strategy_profile_player] = (
-            average_util[strategy_profile_player] - radius, average_util[strategy_profile_player] + radius)
+            if return_only_means:
+                conf_util[strategy_profile_player] = average_util[strategy_profile_player]
+            else:
+                conf_util[strategy_profile_player] = (average_util[strategy_profile_player] - radius, average_util[strategy_profile_player] + radius)
         return eps, conf_util

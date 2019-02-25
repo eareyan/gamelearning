@@ -22,51 +22,27 @@ c_payoffs = 10
 
 x = data[(data['c_noise'] == c_noise) & (data['c_payoffs'] == c_payoffs)]
 
-# for N_gamma, d in x.groupby('N_gamma').sum().iterrows():
 line_styles = ['-', '--', '-.', ':']
 line_styles_iterator = iter(line_styles)
+colors = {'GS': 'gray', 'PSP': 'orange'}
+
+plt.rc('font', size=12)
+
 for N_gamma in [1024, 324, 24, 8]:
-    # for N_a in [5, 4, 3, 2]:
     # Get psp data
     psp = x[(x['algo'] == 'psp') & (x['N_gamma'] == N_gamma)]
-    # psp = x[(x['algo'] == 'psp') & (x['N_a'] == N_a) & (x['N_p'] == 3)]
     psp = psp.sort_values('eps')
-    print(psp)
-    # Get gs data
-    # gs = x[(x['algo'] == 'gs') & (x['N_gamma'] == N_gamma)]
-    # gs = x[(x['algo'] == 'gs') & (x['N_a'] == N_a) & (x['N_p'] == 3)]
-    # gs = gs.sort_values('eps')
-    # Plot in a log scale
-    # plt.semilogy(gs['eps'], gs['m'], label='gs ' + str(N_gamma), color='g')
-    # plt.semilogy(psp['eps'], psp['m'], label='psp' + str(N_gamma), color='r')
-    # plt.semilogx(gs['m'], gs['eps'], label='gs ' + str(N_gamma), color='g')
-
-    # Plot eps(m)
     next_line_style = next(line_styles_iterator)
-    plt.semilogx(psp['m'], psp['eps'], label=r'$N_\Gamma$ = ' + str(N_gamma), color='gray', linestyle=next_line_style)
-    plt.semilogx(psp['m'], [compute_epsilon(t / N_gamma, 0.1, N_gamma) for t in psp['m']], label=r'$N_\Gamma$ = ' + str(N_gamma), color='orange', linestyle=next_line_style)
-    plt.text(1500, 0.30, "Algorithm 1 (GS)", fontdict={#'family': 'serif',
-                                                  'color': 'gray',
-                                                  'weight': 'normal',
-                                                  'size': 12,
-                                                  })
-    plt.text(1500, 0.28, "Algorithm 2 (PSP)", fontdict={#'family': 'serif',
-                                                  'color': 'orange',
-                                                  'weight': 'normal',
-                                                  'size': 12,
-                                                  })
+    plt.semilogx(psp['m'], psp['eps'], label=r'$N_\Gamma$ = ' + str(N_gamma), color=colors['PSP'], linestyle=next_line_style)
+    plt.semilogx(psp['m'], [compute_epsilon(t / N_gamma, 0.1, N_gamma) for t in psp['m']], label=r'$N_\Gamma$ = ' + str(N_gamma), color=colors['GS'], linestyle=next_line_style)
+    plt.text(1500, 0.30, "Algorithm 1 (GS)", fontdict={'color': colors['GS'], 'weight': 'normal', 'size': 12})
+    plt.text(1500, 0.28, "Algorithm 2 (PSP)", fontdict={'color': colors['PSP'], 'weight': 'normal', 'size': 12})
 
-    # Plot m(eps)
-    # plt.semilogy(psp['eps'], psp['m'], label='psp ' + str(N_gamma), color='r')
-    # plt.semilogy([compute_epsilon(t / N_gamma, 0.1, N_gamma) for t in psp['m']], psp['m'], label='gs ' + str(N_gamma), color='g')
-
-    # plt.xlabel(r'$\epsilon$')
-    # plt.ylabel('Number of samples')
-
+plt.title('(b) GS vs. PSP with Hoeffding Bounds.')
 plt.xlabel('Number of samples')
 plt.ylabel(r'$\epsilon$')
 
 plt.legend()
-#plt.show()
-plt.tight_layout()
-plt.savefig('/Users/enriqueareyan/Documents/workspace/gamelearning/data/plots/GvPSP/GvPSP.png')
+plt.show()
+# plt.tight_layout()
+# plt.savefig('/Users/enriqueareyan/Documents/workspace/gamelearning/data/plots/GvPSP/GvPSP.png')

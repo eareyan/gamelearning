@@ -7,6 +7,7 @@ expt_data = pd.read_csv('/Users/enriqueareyan/Documents/workspace/gamelearning/d
 g = expt_data.groupby(['noise', 'delta', 'discount']).mean().reset_index()
 colors = ['g', 'b', 'r', 'y', 'k']
 my_colors = iter(colors)
+plt.rc('font', size=12)
 for discount in [1.0, 0.875, 0.75, 0.625, 0.5]:
     the_color = next(my_colors)
     data = g[(g['discount'] == discount) & (g['noise'] == 5)]
@@ -14,7 +15,8 @@ for discount in [1.0, 0.875, 0.75, 0.625, 0.5]:
     plt.fill_between(data['delta'], data['upper'], data['lower'], color=the_color, alpha=.5)
     plt.plot(data['delta'], data['mean'], color=the_color, linestyle='--', label=r'$\rho =  $' + str(discount))
 
-plt.ylim(0.5, 1.05)
+plt.title('(a) GS Empirical Failure Rate vs. Bounds.')
+plt.ylim(0.8, 1.02)
 plt.xlim(0.02, 0.2)
 plt.plot([0, 0.2], [1, 0.8], 'k-')
 plt.xlabel(r'$\delta$')

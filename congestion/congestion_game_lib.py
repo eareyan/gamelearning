@@ -1,6 +1,7 @@
 from congestion.congestion_games import CongestionGame
 from structures import brg
 
+
 def simpleCongestionGame1():
     # An example of a concrete game. In this game, there is a unique pure nash.
     # facilities may have different cost functions
@@ -20,9 +21,38 @@ def simpleCongestionGame1():
     congestionGame1BRG = brg.BRG.get_true_brg(congestionGame1)
     list_of_pureNash_CongestionGame1 = brg.BRG.getListOfPureNash(congestionGame1, congestionGame1BRG)
 
-    #print(congestionGame1)
-    #print("There are " + str(len(list_of_pureNash_CongestionGame1)) + " pure Nash -> ", list_of_pureNash_CongestionGame1)
+    # print(congestionGame1)
+    # print("There are " + str(len(list_of_pureNash_CongestionGame1)) + " pure Nash -> ", list_of_pureNash_CongestionGame1)
 
     # Create Welfare graph. For a given strategy profile, the welfare graph has payoffs equal to the sum for every players
     # payoff in the profile.
     return congestionGame1
+
+
+def simpleCongestionGame2():
+    m = 6
+    facilities_cost_functions = {0: lambda x: x, 1: lambda x: x, 2: lambda x: x,
+                                 3: lambda x: x, 4: lambda x: x, 5: lambda x: x}
+    # players strategies
+    n = 2
+    strats = {0: {0: set([0, 3]), 1: set([1, 5, 4])},
+              1: {0: set([1, 4]), 1: set([2, 3, 5])}}
+
+    congestionGame2 = CongestionGame("A simple congestion game", n, m, strats, facilities_cost_functions)
+    return congestionGame2
+
+
+def simpleCongestionGame3():
+    m = 6
+    facilities_cost_functions = {0: lambda x: x, 1: lambda x: x, 2: lambda x: x,
+                                 3: lambda x: x, 4: lambda x: x, 5: lambda x: x}
+    # players strategies
+    n = 4
+    strats = {0: {0: set([0, 3]), 1: set([1, 5, 4]), 2: set([1, 2, 3])},
+              1: {0: set([1, 4]), 1: set([2, 3, 5]), 2: set([4, 5])},
+              2: {0: set([2, 4]), 1: set([3, 5]), 2: set([1, 4, 5]), 3: set([1, 2, 3, 4, 5])},
+              3: {0: set([0, 2, 4]), 1: set([0, 5]), 2: set([1, 4, 5]), 3: set([0, 1, 2, 4, 5]), 4: set([1, 2, 3])}
+              }
+
+    congestionGame2 = CongestionGame("A simple congestion game", n, m, strats, facilities_cost_functions)
+    return congestionGame2

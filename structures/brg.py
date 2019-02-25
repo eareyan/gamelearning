@@ -22,7 +22,7 @@ class BRG:
     @staticmethod
     def construct_all_true_individual_restricted_brgs(game_input: game, eps: float = 0) -> dict:
         return {i: BRG.compute_true_restricted_brg_for_player(game_input, i, eps) for i in
-                range(0, game_input.numPlayers)}
+                range(0, game_input.num_players)}
 
     @staticmethod
     def compute_true_restricted_brg_for_player(game_input: game, player_index: int, eps: float = 0) -> nx.DiGraph:
@@ -112,7 +112,7 @@ class BRG:
             edges_data = G.get_edge_data(n, n)
             # Warning: we currently rely on the fact that the dictionary of data of edges contains EXACTLY
             # as many data as number of players to conclude that a node is a Nash.
-            pure_nash = pure_nash + [n] if edges_data is not None and len(edges_data) == game_input.numPlayers \
+            pure_nash = pure_nash + [n] if edges_data is not None and len(edges_data) == game_input.num_players \
                 else pure_nash
         return pure_nash
 
@@ -120,7 +120,7 @@ class BRG:
     def brg_containment_checker(game_input: game, dict_individual_brgs_1: dict, dict_individual_brgs_2: dict):
         """ Given a game and two dictionaries of individual BRGS, check if the first BRG is contained in the second. """
         # For each player, check if the first brg is contained in the second.
-        for i in range(0, game_input.numPlayers):
+        for i in range(0, game_input.num_players):
             if not (BRG.isG1ContainedInG2(dict_individual_brgs_1[i], dict_individual_brgs_2[i])):
                 return False
         return True

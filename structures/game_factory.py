@@ -7,13 +7,13 @@ class GameFactory:
     @staticmethod
     def getWelfareGame(input_game: Game) -> Game:
         strategy_space = [tuple(strats) for strats in itertools.product(
-            *[[a for a in range(0, input_game.listOfPlayers[j].numActions)] for j in range(0, input_game.numPlayers)])]
+            *[[a for a in range(0, input_game.listOfPlayers[j].numActions)] for j in range(0, input_game.num_players)])]
         welfare_payoffs = {}
         for s in strategy_space:
             total = 0
-            for p in range(0, input_game.numPlayers):
+            for p in range(0, input_game.num_players):
                 total += input_game.payoffs[s + (p,)]
-            for p in range(0, input_game.numPlayers):
+            for p in range(0, input_game.num_players):
                 welfare_payoffs[s + (p,)] = total
         return Game("Welfare game of " + input_game.name, input_game.listOfPlayers, welfare_payoffs)
 
